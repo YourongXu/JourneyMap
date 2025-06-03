@@ -1,0 +1,144 @@
+.App {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f7f6;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.App-header {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.main-content {
+  display: flex;
+  gap: 20px;
+}
+
+.input-section, .history-section { /* 尽管历史部分已移除，但保留样式以防万一 */
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.input-section textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box; /* Include padding in width */
+  font-size: 1rem;
+}
+
+.input-section button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.input-section button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.input-section button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.history-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.history-section li button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-align: left;
+  padding: 5px 0;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.history-section li button:hover {
+  text-decoration: underline;
+}
+
+.results-section {
+  flex: 2; /* 结果区域占据更多空间 */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.results-section h2, .results-section h3 {
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.results-section pre {
+  background-color: #f8f8f8;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'Courier New', Courier, monospace; /* 等宽字体 */
+  line-height: 1.5;
+}
+
+.results-section ul {
+  list-style: disc;
+  margin-left: 20px;
+  padding-left: 0;
+}
+
+.results-section ul li {
+    margin-bottom: 5px;
+}
+
+/* Markdown 渲染的样式 */
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: #333;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  margin-left: 20px;
+  padding-left: 0;
+}
+
+.markdown-content li {
+  margin-bottom: 5px;
+}
+
+.markdown-content strong {
+  font-weight: bold;
+  color: #555;
+}
