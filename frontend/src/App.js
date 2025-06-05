@@ -10,7 +10,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const API_BASE_URL = 'http://127.0.0.1:5000/api'; // 后端API地址
+  const API_BASE_URL = 'http://127.0.0.1:5001/api'; // 后端API地址
 
   const handleAnalyze = async () => {
     setLoading(true);
@@ -74,25 +74,31 @@ function App() {
           {error && <p className="error-message">{error}</p>}
         </div>
 
-        {analysisResult && (
+        {(analysisResult || loading) && (
           <div className="results-section">
-            {/* <h2>Analysis Result</h2> */}
-
             <h3>User Persona</h3>
-            <PersonaCard personaData={analysisResult.parsed_data.persona_data} />
+            <PersonaCard 
+              persona={analysisResult?.parsed_data?.persona_data} 
+              isLoading={loading}
+              error={!loading && !analysisResult?.parsed_data?.persona_data ? "Failed to generate persona data" : null}
+            />
             
             {/* 如果JSON解析失败，显示原始Markdown */}
-            {!analysisResult.parsed_data.persona_data && (
+            {!loading && analysisResult && !analysisResult.parsed_data.persona_data && (
               <div className="markdown-content">
                 <ReactMarkdown>{analysisResult.parsed_data.persona_md}</ReactMarkdown>
               </div>
             )}
 
-            <h3>User Journey Map</h3>
-            <div className="markdown-content">
-              {/* 使用 ReactMarkdown 组件渲染后端返回的 Markdown */}
-              <ReactMarkdown>{analysisResult.parsed_data.journey_map_md}</ReactMarkdown>
-            </div>
+            {!loading && analysisResult && (
+              <>
+                <h3>User Journey Map</h3>
+                <div className="markdown-content">
+                  {/* 使用 ReactMarkdown 组件渲染后端返回的 Markdown */}
+                  <ReactMarkdown>{analysisResult.parsed_data.journey_map_md}</ReactMarkdown>
+                </div>
+              </>
+            )}
 
             {/* TODO: 添加下载按钮，前端生成PDF/图片 */}
           </div>
