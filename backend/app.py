@@ -4,12 +4,18 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 import uuid
 import json
-from flask_cors import CORS # 确保导入 CORS
+from flask_cors import CORS
 
 load_dotenv() # 加载 .env 文件中的环境变量
 
 app = Flask(__name__)
-CORS(app) # 启用 CORS
+# 最大权限CORS配置，开发环境用
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True, allow_headers="*", methods=["GET", "POST", "OPTIONS"])
+
+# 打印所有请求日志，方便排查
+@app.before_request
+def log_request_info():
+    print(f"[REQ] {request.method} {request.url} Headers: {dict(request.headers)}")
 
 # 配置 Gemini API
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -94,23 +100,35 @@ def analyze_interview():
     sentiment_response = get_gemini_response(sentiment_prompt)
 
 
-    # 3. 生成 Persona
+    # 3. 生成 Persona (改为JSON格式输出)
     persona_prompt = f"""
     请根据以下用户访谈文本，生成一个用户画像 (Persona)。
-    请包含以下信息：姓名、年龄范围、职业、背景、痛点、目标、行为特点、一句描述性总结。
-    输出格式为Markdown，例如：
-    ## [Persona 姓名]
-    - **年龄**: [年龄范围]
-    - **职业**: [职业]
-    - **背景**: [背景描述]
-    - **痛点**:
-        - [痛点1]
-        - [痛点2]
-    - **目标**:
-        - [目标1]
-        - [目标2]
-    - **行为特点**: [行为特点描述]
-    - **总结**: [一句总结]
+    请严格按照以下JSON格式输出，不要添加任何其他内容：
+
+    {{
+        "name": "[生成一个合适的姓名]",
+        "title": "[职业角色或身份描述]",
+        "age": "[年龄或年龄范围，如 '25-30' 或 '32']",
+        "occupation": "[具体职业]",
+        "location": "[居住地点]",
+        "quote": "[基于访谈内容生成的一句具有代表性的话]",
+        "background": "[背景描述，2-3句话]",
+        "goals": [
+            "[目标1]",
+            "[目标2]",
+            "[目标3]"
+        ],
+        "painPoints": [
+            "[痛点1]",
+            "[痛点2]",
+            "[痛点3]"
+        ],
+        "interests": [
+            "[兴趣1]",
+            "[兴趣2]",
+            "[兴趣3]"
+        ]
+    }}
 
     访谈文本：
     {raw_text}
@@ -198,6 +216,21 @@ def analyze_interview():
                 except (ValueError, IndexError):
                     pass
 
+    # 解析JSON格式的persona数据
+    persona_data = None
+    if persona_response:
+        try:
+            # 尝试解析JSON
+            import re
+            # 提取JSON部分（去除可能的前后文本）
+            json_match = re.search(r'\{.*\}', persona_response, re.DOTALL)
+            if json_match:
+                json_str = json_match.group()
+                persona_data = json.loads(json_str)
+        except (json.JSONDecodeError, AttributeError) as e:
+            print(f"Failed to parse persona JSON: {e}")
+            # 如果JSON解析失败，保留原始文本
+            persona_data = None
 
     # 将分析结果存储到内存字典中
     analysis_results[analysis_id] = {
@@ -216,6 +249,7 @@ def analyze_interview():
             "overall_sentiment": overall_sentiment,
             "sentiment_segments": sentiment_segments,
             "persona_md": persona_response if persona_response else "未能生成用户画像。", # 前端直接渲染Markdown
+            "persona_data": persona_data, # 新增：结构化的persona数据
             "journey_map_md": journey_map_response if journey_map_response else "未能生成用户旅程图。" # 前端直接渲染Markdown
         },
         "analysis_timestamp": "..." # 可以添加实际时间戳，例如 datetime.now().isoformat()

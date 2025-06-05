@@ -1,125 +1,163 @@
 .App {
-  font-family: Arial, sans-serif;
-  max-width: 1200px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f4f7f6;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
 .App-header {
   text-align: center;
   color: #333;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.App-header h1 {
+  font-size: 36px;
+  font-weight: 300;
+  margin: 0;
+  color: #4285f4;
 }
 
 .main-content {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 30px;
 }
 
-.input-section, .history-section { /* 尽管历史部分已移除，但保留样式以防万一 */
-  flex: 1;
+.input-section {
   background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.input-section h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .input-section textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box; /* Include padding in width */
-  font-size: 1rem;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  transition: border-color 0.3s ease;
+}
+
+.input-section textarea:focus {
+  outline: none;
+  border-color: #4285f4;
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
 }
 
 .input-section button {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
   color: white;
-  padding: 10px 20px;
+  padding: 12px 30px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
 }
 
 .input-section button:hover:not(:disabled) {
-  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
 }
 
 .input-section button:disabled {
-  background-color: #cccccc;
+  background: #e0e0e0;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .error-message {
-  color: red;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-.history-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.history-section li button {
-  background: none;
-  border: none;
-  color: #007bff;
-  cursor: pointer;
-  text-align: left;
-  padding: 5px 0;
-  width: 100%;
-  font-size: 1rem;
-}
-
-.history-section li button:hover {
-  text-decoration: underline;
+  color: #dc3545;
+  margin-top: 15px;
+  font-weight: 500;
+  padding: 12px;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
 }
 
 .results-section {
-  flex: 2; /* 结果区域占据更多空间 */
   background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .results-section h2, .results-section h3 {
   color: #333;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 12px;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.results-section h3 {
+  font-size: 24px;
+  margin-top: 40px;
 }
 
 .results-section pre {
-  background-color: #f8f8f8;
-  padding: 15px;
-  border-radius: 5px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
   overflow-x: auto;
   white-space: pre-wrap;
   word-break: break-word;
-  font-family: 'Courier New', Courier, monospace; /* 等宽字体 */
-  line-height: 1.5;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  line-height: 1.6;
+  border: 1px solid #e9ecef;
 }
 
 .results-section ul {
-  list-style: disc;
-  margin-left: 20px;
+  list-style: none;
+  margin-left: 0;
   padding-left: 0;
 }
 
 .results-section ul li {
-    margin-bottom: 5px;
+  margin-bottom: 8px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.results-section ul li::before {
+  content: '•';
+  color: #4285f4;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
 }
 
 /* Markdown 渲染的样式 */
+.markdown-content {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
 .markdown-content h2,
 .markdown-content h3,
 .markdown-content h4 {
@@ -139,6 +177,30 @@
 }
 
 .markdown-content strong {
-  font-weight: bold;
-  color: #555;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .App {
+    padding: 15px;
+  }
+  
+  .App-header {
+    padding: 20px;
+  }
+  
+  .App-header h1 {
+    font-size: 28px;
+  }
+  
+  .input-section,
+  .results-section {
+    padding: 20px;
+  }
+  
+  .main-content {
+    gap: 20px;
+  }
 }
